@@ -5,13 +5,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.scoreboard.Team;
+
+import static com.dewgon.minigameapi.Board.teams;
 
 public class TestCommands implements CommandExecutor {
-    private sBoard sboard;
+    private Board board;
 
-    public TestCommands(sBoard sboard) {
-        this.sboard = sboard;
+    public TestCommands(Board board) {
+        this.board = board;
     }
 
     @Override
@@ -22,25 +23,35 @@ public class TestCommands implements CommandExecutor {
         } else if (args.length < 1) {
             sender.sendMessage(ChatColor.RED + "Too few arguments!");
         } else if (args.length == 3) {
-                String commandType = args[0];
-                switch(commandType){
-                    case "createTeam":
-                        Team team = sboard.createTeam(args[1], args[2]);
-                        break;
-                    case "createBoard":
-                        sboard.createBoard();
-                        break;
-                    case "createObjective":
-                        sboard.createObjective();
-                        break;
-                    case "createScore":
-                        sboard.createScore(args[1], Integer.parseInt(args[2]));
-                        break;
-                    case "assignTeam":
-                        sboard.assignTeams(Bukkit.getPlayer(args[1]),);
+            String commandType = args[0];
+            switch (commandType) {
+                case "createTeam":
+                    if (args[1] != null && args[2] != null) {
+                        board.createTeam(args[1], args[2]);
+                        System.out.println("Team created with name " + args[1] + " and color " + args[2]);
+                    }
+                    break;
+                case "createBoard":
+                    board.createBoard();
+                    System.out.println("Board Created");
+                    break;
+                case "createObjective":
+                    board.createObjective();
+                    System.out.println("Objective Created");
+                    break;
+                case "createScore":
+                    if (args[1] != null && args[2] != null) {
+                        board.createScore(args[1], Integer.parseInt(args[2]));
+                        System.out.println("Score created with details " + args[1] + " and " + args[2]);
+                    }
+                    break;
+                case "assignTeam":
+                    if (Bukkit.getPlayer(args[1]) != null) {
+                        board.assignTeams(Bukkit.getPlayer(args[1]), teams.get(Integer.parseInt(args[2])));
+                    }
 
-                }
             }
+        }
 
         return false;
     }
