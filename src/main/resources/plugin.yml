@@ -4,3 +4,8 @@ main: com.dewgon.minigameapi.Main
 api-version: 1.17
 authors: [ Dewgon ]
 description: API for use in mini games
+commands:
+  minigameapi:
+    description: debug commands
+    usage: /minigameapi
+

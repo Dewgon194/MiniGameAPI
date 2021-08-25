@@ -6,13 +6,18 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
 
     org.bukkit.scoreboard.Scoreboard board = createBoard();
-    public static List<Team> teams;
+    public ArrayList<Team> teams = new ArrayList<>();
 
+    public Team callTeam(int num){
+        Team team = teams.get(num);
+        return team;
+    }
     public Scoreboard createBoard() {
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         return manager.getNewScoreboard();
@@ -40,6 +45,15 @@ public class Board {
     }
     public void assignTeams(Player player, Team team){
         team.addEntry(player.getDisplayName());
+
+    }
+    public void updateBoard(){
+        ArrayList<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
+        for (int x = 0; x < players.size();){
+            Player player = players.get(x);
+            player.setScoreboard(board);
+            x= x + 1;
+        }
 
     }
 }
