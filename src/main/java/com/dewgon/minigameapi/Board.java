@@ -13,18 +13,18 @@ public class Board {
 
     org.bukkit.scoreboard.Scoreboard board = createBoard();
     public ArrayList<Team> teams = new ArrayList<>();
+    Objective objective;
 
     public Team callTeam(int num){
-        Team team = teams.get(num);
-        return team;
+        return teams.get(num);
     }
     public Scoreboard createBoard() {
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         return manager.getNewScoreboard();
     }
-    public Objective createObjective() {
+    public Objective createObjective(String name, String title) {
 
-        Objective objective = board.registerNewObjective("Title", "dummy", "test.xyz");
+        objective = board.registerNewObjective(name, "dummy", title);
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         return objective;
     }
@@ -38,10 +38,10 @@ public class Board {
         team.setDisplayName(color + StringUtils.capitalize(colour));
         team.setColor(color);
         teams.add(team);
+
     }
     public void createScore(String entry, int x) {
-
-        createObjective().getScore(entry).setScore(x);
+        objective.getScore(entry).setScore(x);
     }
     public void assignTeams(Player player, Team team){
         team.addEntry(player.getDisplayName());
